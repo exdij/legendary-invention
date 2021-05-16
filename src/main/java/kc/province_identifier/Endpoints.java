@@ -9,9 +9,8 @@ public class Endpoints {
     @GetMapping(value="/u")
     public ResponseEntity<String> getKey(){
         PropertiesReader props = new PropertiesReader();
-
         return ResponseEntity.ok()
-                .body(props.getProp("APP_KEY"));
+                .body(System.getenv("APP_KEY"));
     }
 
     @GetMapping(value="/secret")
