@@ -30,17 +30,16 @@ public class CSVFileParser {
                     province = row.substring(0,1).toUpperCase() + row.substring(1);
                 } else if(row.contains("Gmin")){
                     commune = row.split(":")[0];
-                    if (commune == "Gminy") commune = "Gmina";
+                    if (commune.equals("Gminy")) commune = "Gmina";
+                    else if(commune.equals("Gminy miejskie")) commune = "Gmina miejska";
                 } else if((row_splitted = row.split(";")).length > 1){
                     if((city_id = parseInt(row_splitted[1])) != 0){
                         if(row_splitted.length > 2) {
                             if (row_splitted[2].contains("przywrócony") || !row_splitted[2].contains("kod") && !row_splitted[2].contains("obowiązywał")) {
-//                                System.out.println(district + " " + province + " " + row_splitted[0] + " " + commune + " " + city_id + " " + row_splitted[2]);
                                 cityList.add(new City(city_id, row_splitted[0],district,province,commune));
                             }
                         }
                         else {
-//                            System.out.println(district + " " + province + " " + row_splitted[0] + " " + commune + " " + city_id);
                             cityList.add(new City(city_id, row_splitted[0],district,province,commune));
                         }
                     }
