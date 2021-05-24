@@ -1,30 +1,40 @@
 package kc.province_identifier;
 
+import kc.province_identifier.entities.City;
+import kc.province_identifier.entities.CityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class Endpoints {
-    @GetMapping(value="/u")
-    public ResponseEntity<String> getKey(){
-        PropertiesReader props = new PropertiesReader();
+    @Autowired
+    private CityRepository cityRepository;
+
+    @CrossOrigin()
+    @GetMapping(value="/get_id")
+    public ResponseEntity<List<City>> getId(@RequestParam String name){
+        List<City> test;
+        test = cityRepository.findIdByName(name);
         return ResponseEntity.ok()
-                .body(System.getenv("APP_KEY"));
+                .body(test);
     }
 
-    @GetMapping(value="/secret")
-    public ResponseEntity<String> readFile(){
+
+    @PostMapping(value="/save")
+    public ResponseEntity<String> testadd(@RequestParam("file") MultipartFile file){
         CSVFileParser parser = new CSVFileParser();
-        parser.readCSV();
+        cityRepository.saveAll(parser.readCSV(file));
         return ResponseEntity.ok()
                 .body("ok");
     }
 
     @GetMapping(value="/")
     public ResponseEntity<String> ping(){
-        PropertiesReader props = new PropertiesReader();
-
         return ResponseEntity.ok()
                 .body("Hello there");
     }
