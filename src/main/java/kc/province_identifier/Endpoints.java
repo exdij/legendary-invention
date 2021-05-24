@@ -27,7 +27,8 @@ public class Endpoints {
 
     @PostMapping(value="/save")
     public ResponseEntity<String> addCity(@RequestParam("file") MultipartFile file, @RequestHeader("app_key") String appKey){
-        if(!appKey.equals(System.getenv("APP_KEY"))){
+        String envkey = System.getenv("APP_KEY");
+        if(!appKey.equals(envkey)){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("");
         }
