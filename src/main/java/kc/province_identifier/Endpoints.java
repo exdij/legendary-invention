@@ -3,11 +3,11 @@ package kc.province_identifier;
 import kc.province_identifier.entities.City;
 import kc.province_identifier.entities.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,15 +18,19 @@ public class Endpoints {
     @CrossOrigin()
     @GetMapping(value="/get_id")
     public ResponseEntity<List<City>> getId(@RequestParam String name){
-        List<City> test;
-        test = cityRepository.findIdByName(name);
+        List<City> cityList;
+        cityList = cityRepository.findIdByName(name);
         return ResponseEntity.ok()
-                .body(test);
+                .body(cityList);
     }
 
 
     @PostMapping(value="/save")
-    public ResponseEntity<String> testadd(@RequestParam("file") MultipartFile file){
+    public ResponseEntity<String> addCity(@RequestParam("file") MultipartFile file, @RequestHeader("app_key") String appKey){
+        if(!appKey.equals(System.getenv("APP_KEY"))){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("");
+        }
         CSVFileParser parser = new CSVFileParser();
         cityRepository.saveAll(parser.readCSV(file));
         return ResponseEntity.ok()
