@@ -1,9 +1,9 @@
-package kc.province_identifier;
+package kc.province_identifier.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.jpa.repository.Query;
+
 
 import javax.persistence.Id;
 import javax.persistence.Entity;

@@ -1,5 +1,6 @@
 package kc.province_identifier;
 
+import kc.province_identifier.entities.City;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
