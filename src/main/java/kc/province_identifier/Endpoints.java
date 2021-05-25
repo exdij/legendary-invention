@@ -19,7 +19,7 @@ public class Endpoints {
     @GetMapping(value="/get_id")
     public ResponseEntity<List<City>> getId(@RequestParam String name){
         List<City> cityList;
-        cityList = cityRepository.findIdByName(name);
+        cityList = cityRepository.findByNameContainingIgnoreCase(name);
         return ResponseEntity.ok()
                 .body(cityList);
     }
