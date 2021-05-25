@@ -1,18 +1,17 @@
 package kc.province_identifier.entities;
 
 import lombok.AllArgsConstructor;
+import lombok.Generated;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.Persistable;
 
-
 import javax.persistence.Id;
 import javax.persistence.Entity;
-import java.util.UUID;
+
 
 @Setter
 @Getter
-@AllArgsConstructor
 @Entity
 public class City implements Persistable<Integer> {
     @Id
@@ -23,6 +22,13 @@ public class City implements Persistable<Integer> {
     private String commune;
 
     public City() { }
+    public City(Integer cityId, String name, String district, String province, String commune){
+        this.id = cityId;
+        this.name = name;
+        this.district = district;
+        this.province = province;
+        this.commune = commune;
+    }
     @Override
     public boolean isNew(){
         return true;

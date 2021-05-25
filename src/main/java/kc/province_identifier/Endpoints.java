@@ -26,14 +26,23 @@ public class Endpoints {
 
 
     @PostMapping(value="/save")
-    public ResponseEntity<String> addCity(@RequestParam("file") MultipartFile file, @RequestHeader("app_key") String appKey){
-        String envkey = System.getenv("APP_KEY");
-        if(!appKey.equals(envkey)){
+    public ResponseEntity<String> addCities(@RequestParam("file") MultipartFile file, @RequestHeader("app_key") String appKey){
+        if(!appKey.equals(System.getenv("APP_KEY"))){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("");
         }
         CSVFileParser parser = new CSVFileParser();
         cityRepository.saveAll(parser.readCSV(file));
+        return ResponseEntity.ok()
+                .body("ok");
+    }
+    @PostMapping(value="/saveOne")
+    public ResponseEntity<String> addCity(@RequestBody City city, @RequestHeader("app_key") String appKey){
+        if(!appKey.equals(System.getenv("APP_KEY"))){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body("");
+        }
+        cityRepository.save(city);
         return ResponseEntity.ok()
                 .body("ok");
     }
